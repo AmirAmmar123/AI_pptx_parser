@@ -1,0 +1,9 @@
+.idea/
+.vscode/
+16-Photometry.pptx
+__pycache__/
+myenv/
+outputs/
+uploads/
+GPT-explainer-1.md
+Explainer/README.md

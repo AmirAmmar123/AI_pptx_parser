@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Processing Status</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f8f9fa;
+            color: #343a40;
+            font-family: Arial, sans-serif; /* Set a fallback font family */
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Add a subtle shadow for depth */
+        }
+        .card-header {
+            background: #007bff;
+            color: white;
+            text-align: center;
+            padding: 15px 0; /* Increase padding for better spacing */
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        .card-body {
+            background: #ffffff;
+            padding: 20px; /* Add padding inside the card body */
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .fancy-image {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 10px; /* Rounded corners for the image */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Add shadow for depth */
+        }
+        .alert {
+            margin-bottom: 20px; /* Space between alerts */
+        }
+        .slide {
+            margin-bottom: 30px; /* Space between slides */
+        }
+        .slide h3 {
+            font-size: 1.5rem; /* Larger font size for slide headings */
+            margin-bottom: 10px; /* Space below headings */
+            color: #007bff; /* Blue color for headings */
+        }
+        .prompt {
+            font-size: 1.2rem; /* Font size for prompts */
+            font-weight: bold; /* Bold font weight for emphasis */
+            margin-bottom: 5px; /* Space below prompts */
+        }
+        .response {
+            margin-top: 10px; /* Space above responses */
+        }
+        .explanation {
+            font-size: 1.1rem; /* Font size for explanations */
+            line-height: 1.6; /* Increase line height for better readability */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>File Processing Status</h2>
+                    </div>
+                    <div class="card-body text-center">
+                        <img src="//www.imperial.ac.uk/ImageCropToolT4/imageTool/uploaded-images/newseventsimage_1698771886089_mainnews2012_x1.jpg" class="fancy-image" alt="Fancy Image">
+                        {% if status == "pending" %}
+                            <div class="alert alert-info" role="alert">
+                                <strong>Processing Pending</strong><br>
+                                File: <strong>{{ filename }}</strong><br>
+                                Uploaded at: <strong>{{ timestamp }}</strong>
+                                <p>Processing is still ongoing. Please check back later.</p>
+                            </div>
+                        {% elif status == "done" %}
+                            {% if explanation %}
+                                {% for slide in explanation %}
+                                    <div class="slide">
+                                        <h3>Slide {{ slide.slide_number }}</h3>
+                                        <div class="prompt">
+                                            <strong>Prompt:</strong> {{ slide.prompt }}
+                                        </div>
+                                        <div class="response">
+                                            <strong>Response:</strong>
+                                            <div class="explanation">
+                                                {{ slide.response | safe }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="alert alert-warning" role="alert">
+                                    Explanation data not found.
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="footer">
+                    <a href="/status_check.html" class="btn btn-secondary">Check Another File</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

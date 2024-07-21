@@ -1,0 +1,38 @@
+.
+├── Details
+│   ├── GPT-explainer-app.md
+│   ├── Project-Structure.txt
+│   └── requirements.txt
+├── Explainer
+│   ├── README2.md
+│   ├── Test-unit
+│   │   ├── Test-aipptx_json
+│   │   │   ├── __init__.py
+│   │   │   ├── test.py
+│   │   │   └── test_output.json
+│   │   ├── Test-ppts-parser
+│   │   │   ├── __init__.py
+│   │   │   └── test.py
+│   │   └── __init__.py
+│   ├── aipptx_json.py
+│   ├── explainer.py
+│   ├── main.py
+│   ├── openAI_integration.py
+│   └── pptx_parser.py
+├── GPT-explainer-2.md
+└── server
+    ├── DB
+    │   ├── __pycache__
+    │   │   └── chatgptDB.cpython-310.pyc
+    │   ├── chatgptDB.py
+    │   └── gptDB.db
+    ├── app.py
+    ├── main.py
+    ├── templates
+    │   ├── error.html
+    │   ├── output_display.html
+    │   ├── status_check.html
+    │   ├── uid_display.html
+    │   └── upload.html
+    └── uploads
+

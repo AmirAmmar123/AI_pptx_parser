@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Upload and process a PowerPoint file.">
+    <meta name="keywords" content="file upload, PPTX, processing">
+    <meta name="author" content="Your Name">
+    <title>Upload File</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f8f9fa;
+            color: #343a40;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .card-header {
+            background: #007bff;
+            color: white;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+            padding: 20px;
+        }
+        .card-body {
+            background: #ffffff;
+            padding: 30px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+        }
+        .loading {
+            text-align: center;
+            display: none;
+        }
+        .fancy-image {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .custom-file-input:lang(en) ~ .custom-file-label::after {
+            content: "Browse";
+        }
+        .custom-file-label::after {
+            background-color: #007bff;
+            color: white;
+            border-radius: 0 5px 5px 0;
+        }
+        .btn-primary {
+            background: #007bff;
+            border: none;
+            transition: background 0.3s ease;
+        }
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Upload a PowerPoint File</h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="uploadForm" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="file">Choose a file</label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="file" name="file" accept=".pptx" required>
+                                    <label class="custom-file-label" for="file">Choose file</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email (optional)</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email">
+                                <div class="invalid-feedback">Please enter a valid email address.</div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Upload File</button>
+                        </form>
+                        <div class="loading" id="loadingSpinner">
+                            <img src="https://d3g5ywftkpzr0e.cloudfront.net/wp-content/uploads/2023/07/13220529/Artificial-Intelligence-in-Indonesia-The-current-state-and-its-opportunities.jpeg" class="fancy-image" alt="Fancy Image">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                            <p>Processing your file, please wait...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer">
+                    <a href="/status_check.html" class="btn btn-secondary">Check File Status</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include the full version of jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            bsCustomFileInput.init();
+
+            // Email validation function
+            function isValidEmail(email) {
+                var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+                return emailPattern.test(email);
+            }
+
+            $('#uploadForm').submit(function(event) {
+                event.preventDefault(); // Prevent the default form submission
+
+                // Email validation
+                var emailInput = $('#email');
+                var emailValue = emailInput.val();
+                if (emailValue && !isValidEmail(emailValue)) {
+                    emailInput.addClass('is-invalid');
+                    return;
+                } else {
+                    emailInput.removeClass('is-invalid');
+                }
+
+                // Show loading spinner
+                $('#loadingSpinner').show();
+
+                // Create a FormData object to send the form data
+                var formData = new FormData(this);
+
+                // Make an AJAX POST request
+                $.ajax({
+                    url: '/upload',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(data) {
+                        var uid = data.uid;
+                        setTimeout(function() {
+                            window.location.href = '/uid_display?uid=' + uid;
+                        }, 10000); // Delay for 10 seconds (10000 milliseconds)
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error uploading file:', error);
+                        alert('Failed to upload file. Please try again.');
+                        $('#loadingSpinner').hide(); // Hide loading spinner on error
+                    }
+                });
+            });
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UID Display</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f8f9fa;
+            color: #343a40;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .card {
+            border-radius: 10px;
+        }
+        .card-header {
+            background: #007bff;
+            color: white;
+            text-align: center;
+        }
+        .card-body {
+            background: #ffffff;
+        }
+        .uid-display {
+            font-size: 2rem;
+            text-align: center;
+            margin-top: 20px;
+            padding: 20px;
+            border: 2px solid #007bff;
+            border-radius: 10px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .fancy-image {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>UID Generated Successfully</h2>
+                    </div>
+                    <div class="card-body">
+                        <!-- Fancy Image -->
+                        <img src="https://www.elegantthemes.com/blog/wp-content/uploads/2023/06/What-is-AI-1.jpg" class="fancy-image" alt="Fancy Image">
+                        
+                        <!-- UID Display -->
+                        <div class="uid-display" id="uidDisplay">
+                            <!-- UID will be dynamically inserted here -->
+                        </div>
+                    </div>
+                </div>
+                <div class="footer">
+                    <a href="/" class="btn btn-secondary">Back to Upload</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Retrieve UID from query parameters
+        const params = new URLSearchParams(window.location.search);
+        const uid = params.get('uid');
+        
+        // Update the UID display element
+        const uidDisplay = document.getElementById('uidDisplay');
+        uidDisplay.textContent = `UID: ${uid}`;
+    </script>
+</body>
+</html>
